@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">phoneVerifier</string>
+    <string name="verify">Verify phone number</string>
+    <string name="unverify">Unverify</string>
 </resources>
