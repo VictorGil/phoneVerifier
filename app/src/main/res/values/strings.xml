@@ -4,4 +4,6 @@
     <string name="unverify_number">Unverify number</string>
     <string name="unknown_phone_number">The user\'s phone number is unknown</string>
     <string name="known_phone_number">The user\'s phone number is %1$s</string>
+    <string name="phone_number_unverified_toast">Phone number has been unverified</string>
+    <string name="phone_number_already_unverified_toast">Phone number is already unverified!</string>
 </resources>

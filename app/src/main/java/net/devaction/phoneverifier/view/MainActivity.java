@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.devaction.phoneverifier.R;
 import net.devaction.phoneverifier.controller.PhoneNumberChecker;
 import net.devaction.phoneverifier.controller.PhoneNumberProvider;
+import net.devaction.phoneverifier.controller.PhoneNumberUnverifier;
 
 /**
  * @author Victor Gil
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         //the user wants to unverify their phone number
         unverifyNumberButton = (Button) findViewById(R.id.unverify_number_button);
         unverifyNumberButton.setOnClickListener(new UnverifyNumberOnClickListener());
+        makeUnverifyNumberButtonLookDisabledIfRequired();
 
         messageTextView = (TextView) findViewById(R.id.message_text_view);
         changeTextViewMessageIfRequired();
@@ -49,8 +52,13 @@ public class MainActivity extends AppCompatActivity {
     class UnverifyNumberOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
+             if(IsNumberVerified()){
+                 PhoneNumberUnverifier.unverify(getApplicationContext());
+                 makeUnverifyNumberButtonLookDisabledIfRequired();
+                 Toast.makeText(MainActivity.this,R.string.phone_number_unverified_toast, Toast.LENGTH_SHORT).show();
+             } else
+                 Toast.makeText(MainActivity.this,R.string.phone_number_already_unverified_toast, Toast.LENGTH_SHORT).show();
 
-            //unverifyNumberButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -64,5 +72,10 @@ public class MainActivity extends AppCompatActivity {
             messageTextView.setText(String.format(knownPhoneNumberPattern,
                     PhoneNumberProvider.provide(getApplicationContext())));
         }
+    }
+
+    private void makeUnverifyNumberButtonLookDisabledIfRequired(){
+        if (!IsNumberVerified())
+            unverifyNumberButton.setAlpha(.5f);
     }
 }
