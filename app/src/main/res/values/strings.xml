@@ -6,4 +6,10 @@
     <string name="known_phone_number">The user\'s phone number is %1$s</string>
     <string name="phone_number_unverified_toast">Phone number has been unverified</string>
     <string name="phone_number_already_unverified_toast">Phone number is already unverified!</string>
+    <string name="send_read_sms_permission_rationale">In order to be able to \"do something\", the app needs to
+    verify your phone number by sending an SMS message to your phone and then read that same received SMS message,
+    so the app will request the required permissions</string>
+    <string name="verify_number">Verify number</string>
+    <string name="cancel">Cancel</string>
+    <string name="done_toast">"Something" has been done</string>
 </resources>

@@ -2,6 +2,7 @@ package net.devaction.phoneverifier.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,14 +43,17 @@ public class MainActivity extends AppCompatActivity {
         changeTextViewMessageIfRequired();
     }
 
-    class doSomethingOnClickListener implements View.OnClickListener{
+    private class doSomethingOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
-
+            if(IsNumberVerified()){
+                Toast.makeText(MainActivity.this,R.string.done_toast, Toast.LENGTH_SHORT).show();
+            } else
+                showNumberVerificationPermissionsRationale();
         }
     }
 
-    class UnverifyNumberOnClickListener implements View.OnClickListener{
+    private class UnverifyNumberOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
              if(IsNumberVerified()){
@@ -77,5 +81,15 @@ public class MainActivity extends AppCompatActivity {
     private void makeUnverifyNumberButtonLookDisabledIfRequired(){
         if (!IsNumberVerified())
             unverifyNumberButton.setAlpha(.5f);
+    }
+
+    private void showNumberVerificationPermissionsRationale(){
+        new PermissionsRationaleDialogFragment().show(this.getSupportFragmentManager(),
+                "PermissionsRationaleDialogFragment");
+    }
+
+    //this method is called by PermissionsRationaleDialogFragment
+    public void userAcceptedToVerifyNumber(){
+
     }
 }
