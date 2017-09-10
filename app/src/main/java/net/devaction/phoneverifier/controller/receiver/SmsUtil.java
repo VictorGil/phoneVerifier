@@ -12,8 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import net.devaction.phoneverifier.R;
-import net.devaction.phoneverifier.controller.EnterPhoneNumberChecker;
-import net.devaction.phoneverifier.view.MainActivity;
+import net.devaction.phoneverifier.model.GlobalConstants;
 
 /**
  * @author Víctor Gil
@@ -30,7 +29,7 @@ public class SmsUtil{
         Log.d(TAG, "Going to send an SMS message to: " + phoneNumber);
         String uuid = UUID.randomUUID().toString();
 
-        //last 6 chars of the UUID
+        //last 6 chars of the UUID are enough
         String verificationCode = uuid.substring(uuid.length() - 6);
 
         Intent sentIntent = new Intent(SmsSentBroadcastReceiver.SENT_ACTION).putExtra(PHONE_NUMBER_EXTRA, phoneNumber).
@@ -51,7 +50,7 @@ public class SmsUtil{
     }
 
     static String getMessageContent(final String phoneNumber, final Context context, final String verificationCode){
-        return context.getString(R.string.number_verification_message, MainActivity.APPLICATION_NAME, phoneNumber, verificationCode);
+        return context.getString(R.string.number_verification_message, GlobalConstants.APPLICATION_NAME, phoneNumber, verificationCode);
     }
 
     //We wait for the message to be received in a background thread
