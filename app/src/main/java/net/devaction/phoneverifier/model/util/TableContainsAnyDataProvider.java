@@ -27,6 +27,7 @@ public class TableContainsAnyDataProvider {
                 cursor.close();
             }
         }
+        Log.d(TAG, "result: " + result);
         return result;
     }
 }
