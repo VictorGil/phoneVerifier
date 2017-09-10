@@ -14,12 +14,13 @@ import android.widget.Toast;
  * @author Victor Gil
  * */
 public class SmsDeliveredBroadcastReceiver extends BroadcastReceiver{
+    private static final String TAG = "SmsDeliveredBroadcastRv";
     public final static String DELIVERED_ACTION = "COMPARTE_LOTERIA_VERIFICATION_SMS_DELIVERED";
     private boolean isRegistered;
 
     public void register(final Context context) {
         if (!isRegistered){
-            Log.d(this.toString(), " going to register this broadcast receiver");
+            Log.d(TAG, " going to register this broadcast receiver");
             context.registerReceiver(this, new IntentFilter(DELIVERED_ACTION));
             isRegistered = true;
         }
@@ -27,7 +28,7 @@ public class SmsDeliveredBroadcastReceiver extends BroadcastReceiver{
 
     public void unregister(Context context) {
         if (isRegistered) {
-            Log.d(this.toString(), " going to unregister this broadcast receiver");
+            Log.d(TAG, " going to unregister this broadcast receiver");
             context.unregisterReceiver(this);
             isRegistered = false;
         }
@@ -38,17 +39,17 @@ public class SmsDeliveredBroadcastReceiver extends BroadcastReceiver{
         switch (getResultCode()){
             case Activity.RESULT_OK:
                 Toast.makeText(context, "SMS entregado", Toast.LENGTH_SHORT).show();
-                Log.d("SmsDBroadcastReceiver", "SmsDeliveredBroadcastReceiver: SMS has been delivered");
+                Log.d(TAG, "SmsDeliveredBroadcastReceiver: SMS has been delivered");
                 String phoneNumber = intent.getStringExtra(PHONE_NUMBER_EXTRA);
                 String verificationCode = intent.getStringExtra(VERIFICATION_CODE_EXTRA);
-                Log.d(this.toString(), "phoneNumber from intent: " + phoneNumber);
-                Log.d(this.toString(), "verification code from intent: " + verificationCode);
+                Log.d(TAG, "phoneNumber from intent: " + phoneNumber);
+                Log.d(TAG, "verification code from intent: " + verificationCode);
                 SmsUtil.checkReceived(phoneNumber, verificationCode, context);
                 break;
             case Activity.RESULT_CANCELED:
                 Toast.makeText(context, "SMS no entregado",
                         Toast.LENGTH_SHORT).show();
-                Log.d("SmsDBroadcastReceiver", "SmsDeliveredBroadcastReceiver: SMS has not been delivered");
+                Log.d(TAG, "SmsDeliveredBroadcastReceiver: SMS has not been delivered");
                 break;
         }
     }
