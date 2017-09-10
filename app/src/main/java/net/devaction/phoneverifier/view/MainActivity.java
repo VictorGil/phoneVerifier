@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        //There is a magic phone number prefix for testing which gets verified whithout sending and
+        //There is a magic phone number prefix for testing which gets verified without sending and
         //receiving an SMS message
         if (isMagicNumber(phoneNumberData.getUserPhoneNumber())){
 
