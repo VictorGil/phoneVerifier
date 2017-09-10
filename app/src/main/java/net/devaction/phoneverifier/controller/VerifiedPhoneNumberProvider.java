@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * @author Víctor Gil
  */
-public class PhoneNumberProvider {
+public class VerifiedPhoneNumberProvider {
     public static String provide(Context context){
         return null;
     }
