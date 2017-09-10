@@ -8,6 +8,9 @@ import android.content.IntentFilter;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import net.devaction.phoneverifier.R;
+
 import static net.devaction.phoneverifier.controller.receiver.SmsUtil.PHONE_NUMBER_EXTRA;
 import static net.devaction.phoneverifier.controller.receiver.SmsUtil.VERIFICATION_CODE_EXTRA;
 
@@ -22,7 +25,7 @@ public class SmsSentBroadcastReceiver extends BroadcastReceiver{
 
     public void register(final Context context) {
         if (!isRegistered){
-            Log.d(this.toString(), "going to register this broadcast receiver");
+            Log.d(TAG, "going to register this broadcast receiver");
             context.registerReceiver(this, new IntentFilter(SENT_ACTION));
             isRegistered = true;
         }
@@ -40,27 +43,36 @@ public class SmsSentBroadcastReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         switch (getResultCode()){
             case Activity.RESULT_OK:
-                Toast.makeText(context, "SMS sent", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.SMS_sent),
+                        Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "SmsSentBroadcastReceiver: SMS has been sent");
                 String phoneNumber = intent.getStringExtra(PHONE_NUMBER_EXTRA);
                 String verificationCode = intent.getStringExtra(VERIFICATION_CODE_EXTRA);
                 Log.d(TAG, "phoneNumber from intent: " + phoneNumber);
                 Log.d(TAG, "verification code from intent: " + verificationCode);
                 break;
+
             case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                Toast.makeText(context, "Fallo genérico", Toast.LENGTH_SHORT).show();
-                Log.d("SmsSentBroadcastRver", "SMS has not been sent, there was a generic failure");
+                Toast.makeText(context, context.getResources().getString(R.string.generic_failure),
+                        Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "SMS has not been sent, there was a generic failure");
                 break;
+
             case SmsManager.RESULT_ERROR_NO_SERVICE:
-                Toast.makeText(context, "No network service", Toast.LENGTH_SHORT).show();
-                Log.d("SmsSentBroadcastRver", "SMS has not been sent, there is no service");
+                Toast.makeText(context, context.getResources().getString(R.string.no_service),
+                        Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "SMS has not been sent, there is no service");
                 break;
+
             case SmsManager.RESULT_ERROR_NULL_PDU:
-                Toast.makeText(context, "Null PDU", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.null_pdu),
+                        Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "SMS has not been sent, there is no PDU");
                 break;
+
             case SmsManager.RESULT_ERROR_RADIO_OFF:
-                Toast.makeText(context, "Radio off", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.radio_off),
+                        Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "SMS has not been sent, radio is off");
                 break;
         }
