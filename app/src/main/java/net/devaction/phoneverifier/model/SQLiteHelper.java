@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import static net.devaction.phoneverifier.view.MainActivity.APPLICATION_NAME;
+import static net.devaction.phoneverifier.model.GlobalConstants.APPLICATION_NAME;
 
 /**
  *  @author Víctor Gil

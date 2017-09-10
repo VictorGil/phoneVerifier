@@ -25,7 +25,6 @@ import net.devaction.phoneverifier.controller.receiver.SmsUtil;
  * @author Victor Gil
  * */
 public class MainActivity extends AppCompatActivity {
-    public static final String APPLICATION_NAME = "phoneVerifier";
     private static final String TAG = "MainActivity";
 
     private Button doSomethingButton;
