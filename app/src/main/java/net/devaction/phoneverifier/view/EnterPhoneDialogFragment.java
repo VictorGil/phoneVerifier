@@ -40,6 +40,8 @@ public class EnterPhoneDialogFragment extends DialogFragment{
                 .setPositiveButton(R.string.continue_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        if (phoneNumberString == null || phoneNumberAgainString == null)
+                            return;
                         PhoneNumberData phoneNumberData = EnterPhoneNumberChecker.phoneNumbersMatch(phoneNumberString, phoneNumberAgainString);
                         phoneNumberData = EnterPhoneNumberChecker.phoneNumberTooShort(phoneNumberData);
                         phoneNumberData = EnterPhoneNumberChecker.phoneNumberTooLong(phoneNumberData);
