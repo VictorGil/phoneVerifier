@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     public void userAcceptedToVerifyNumber(){
         if (IsNumberVerified()){
             Toast.makeText(MainActivity.this,R.string.phone_number_already_verified_toast, Toast.LENGTH_SHORT).show();
+            makeUnverifyNumberButtonLookEnabled();
             return;
         }
         if (SmsUtil.isVerificationOngoing()){
