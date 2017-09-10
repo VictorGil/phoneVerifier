@@ -15,6 +15,7 @@ import android.widget.Toast;
 import net.devaction.phoneverifier.R;
 import net.devaction.phoneverifier.controller.PhoneNumberChecker;
 import net.devaction.phoneverifier.controller.PhoneNumberData;
+import net.devaction.phoneverifier.controller.PhoneNumberVerifier;
 import net.devaction.phoneverifier.controller.VerifiedPhoneNumberProvider;
 import net.devaction.phoneverifier.controller.PhoneNumberUnverifier;
 import net.devaction.phoneverifier.controller.receiver.SmsDeliveredBroadcastReceiver;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                  PhoneNumberUnverifier.unverify(getApplicationContext());
                  makeUnverifyNumberButtonLookDisabledIfRequired();
                  Toast.makeText(MainActivity.this,R.string.phone_number_unverified_toast, Toast.LENGTH_SHORT).show();
+                 changeTextViewMessageIfRequired();
              } else
                  Toast.makeText(MainActivity.this,R.string.phone_number_already_unverified_toast, Toast.LENGTH_SHORT).show();
         }
@@ -88,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
             String knownPhoneNumberText = getResources().getString(R.string.known_phone_number,
                     VerifiedPhoneNumberProvider.provide(getApplicationContext()));
             messageTextView.setText(knownPhoneNumberText);
-        }
+        } else
+            messageTextView.setText(getResources().getString(R.string.unknown_phone_number));
     }
 
     private void makeUnverifyNumberButtonLookDisabledIfRequired(){
@@ -151,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
         //There is a magic phone number prefix for testing which gets verified without sending and
         //receiving an SMS message
         if (isMagicNumber(phoneNumberData.getUserPhoneNumber())){
-
+            PhoneNumberVerifier.verify(getApplicationContext(), phoneNumberData.getUserPhoneNumber());
+            changeTextViewMessageIfRequired();
             return;
         }
 
