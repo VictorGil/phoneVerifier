@@ -15,7 +15,7 @@ import android.widget.Toast;
 import net.devaction.phoneverifier.R;
 import net.devaction.phoneverifier.controller.PhoneNumberChecker;
 import net.devaction.phoneverifier.controller.PhoneNumberData;
-import net.devaction.phoneverifier.controller.PhoneNumberProvider;
+import net.devaction.phoneverifier.controller.VerifiedPhoneNumberProvider;
 import net.devaction.phoneverifier.controller.PhoneNumberUnverifier;
 import net.devaction.phoneverifier.controller.receiver.SmsDeliveredBroadcastReceiver;
 import net.devaction.phoneverifier.controller.receiver.SmsSentBroadcastReceiver;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private void changeTextViewMessageIfRequired(){
         if (IsNumberVerified()){
             String knownPhoneNumberText = getResources().getString(R.string.known_phone_number,
-                    PhoneNumberProvider.provide(getApplicationContext()));
+                    VerifiedPhoneNumberProvider.provide(getApplicationContext()));
             messageTextView.setText(knownPhoneNumberText);
         }
     }
