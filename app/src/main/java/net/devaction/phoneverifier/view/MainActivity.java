@@ -76,8 +76,9 @@ public class MainActivity extends AppCompatActivity {
                  makeUnverifyNumberButtonLookDisabledIfRequired();
                  Toast.makeText(MainActivity.this,R.string.phone_number_unverified_toast, Toast.LENGTH_SHORT).show();
                  changeTextViewMessageIfRequired();
-             } else
+             } else{
                  Toast.makeText(MainActivity.this,R.string.phone_number_already_unverified_toast, Toast.LENGTH_SHORT).show();
+             }
         }
     }
 
@@ -95,8 +96,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void makeUnverifyNumberButtonLookDisabledIfRequired(){
-        if (!IsNumberVerified())
+        if (!IsNumberVerified()){
             unverifyNumberButton.setAlpha(.5f);
+        }
+    }
+
+    private void makeUnverifyNumberButtonLookEnabled(){
+        unverifyNumberButton.setAlpha(1);
     }
 
     private void showNumberVerificationPermissionsRationale(){
@@ -156,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         if (isMagicNumber(phoneNumberData.getUserPhoneNumber())){
             PhoneNumberVerifier.verify(getApplicationContext(), phoneNumberData.getUserPhoneNumber());
             changeTextViewMessageIfRequired();
+            makeUnverifyNumberButtonLookEnabled();
             return;
         }
 
