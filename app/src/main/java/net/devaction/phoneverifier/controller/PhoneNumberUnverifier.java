@@ -5,7 +5,7 @@ import net.devaction.phoneverifier.model.UserTable;
 import net.devaction.phoneverifier.model.util.AllDataInTableDeleter;
 
 /**
- * Víctor Gil
+ * @author Víctor Gil
  */
 public class PhoneNumberUnverifier{
 

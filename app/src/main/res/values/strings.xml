@@ -11,5 +11,14 @@
     so the app may request the required permissions</string>
     <string name="verify_number">Verify number</string>
     <string name="cancel">Cancel</string>
-    <string name="done_toast">"Something" has been done</string>
+    <string name="continue_button">Continue</string>
+    <string name="done_toast">\"Something\" has been done</string>
+    <string name="enter_phone_hint">Your phone number</string>
+    <string name="enter_phone_again_hint">Your phone number again</string>
+    <string name="phoneNumbersDontMatch">Phone numbers do not match. Please try again.</string>
+    <string name="phoneNumberIsTooShort">Phone number is too short.</string>
+    <string name="phoneNumberIsTooLong">Phone number is too long.</string>
+    <string name="number_verification_message">Verification message from %1$s app to %2$s. Code: %3$s</string>
+    <string name="phone_number_already_verified_toast">Phone number has already been verified</string>
+    <string name="previous_verification_ongoing_toast">A previous verification process is still ongoing, please wait a few seconds</string>
 </resources>
