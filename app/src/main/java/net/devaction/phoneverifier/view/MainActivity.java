@@ -167,6 +167,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        this.phoneNumberData = phoneNumberData;
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this,
