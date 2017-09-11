@@ -32,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private Button unverifyNumberButton;
     private TextView messageTextView;
 
+    //This "magic" prefix allows you to verify a "fake" phone number without sending an SMS
+    //useful for testing
     private static final String MAGIC_PREFIX = "999999";
+
     private SmsSentBroadcastReceiver smsSentBroadcastReceiver;
     private SmsDeliveredBroadcastReceiver smsDeliveredBroadcastReceiver;
 
@@ -52,33 +55,42 @@ public class MainActivity extends AppCompatActivity {
         //the user wants to unverify their phone number
         unverifyNumberButton = (Button) findViewById(R.id.unverify_number_button);
         unverifyNumberButton.setOnClickListener(new UnverifyNumberOnClickListener());
-        makeUnverifyNumberButtonLookDisabledIfRequired();
 
         messageTextView = (TextView) findViewById(R.id.message_text_view);
-        changeTextViewMessageIfRequired();
+
+        refreshView();
     }
 
     private class doSomethingOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
             if(IsNumberVerified()){
-                Toast.makeText(MainActivity.this,R.string.done_toast, Toast.LENGTH_SHORT).show();
-            } else
-                showNumberVerificationPermissionsRationale();
+                Toast.makeText(MainActivity.this, R.string.done_toast, Toast.LENGTH_SHORT).show();
+            } else{
+                if (isVerificationOngoing())
+                    Toast.makeText(MainActivity.this, R.string.previous_verification_ongoing_toast, Toast.LENGTH_SHORT).show();
+                else
+                    showNumberVerificationPermissionsRationale();
+            }
         }
+    }
+
+    private boolean isVerificationOngoing(){
+        if (smsDeliveredBroadcastReceiver == null)
+            return false;
+        return smsDeliveredBroadcastReceiver.isVerificationOngoing();
     }
 
     private class UnverifyNumberOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
-             if(IsNumberVerified()){
+             if (IsNumberVerified()){
                  PhoneNumberUnverifier.unverify(getApplicationContext());
-                 makeUnverifyNumberButtonLookDisabledIfRequired();
                  Toast.makeText(MainActivity.this,R.string.phone_number_unverified_toast, Toast.LENGTH_SHORT).show();
-                 changeTextViewMessageIfRequired();
              } else{
                  Toast.makeText(MainActivity.this,R.string.phone_number_already_unverified_toast, Toast.LENGTH_SHORT).show();
              }
+             refreshView();
         }
     }
 
@@ -86,20 +98,31 @@ public class MainActivity extends AppCompatActivity {
         return PhoneNumberChecker.isVerified(getApplicationContext());
     }
 
-    private void changeTextViewMessageIfRequired(){
-        if (IsNumberVerified()){
-            String knownPhoneNumberText = getResources().getString(R.string.known_phone_number,
-                    VerifiedPhoneNumberProvider.provide(getApplicationContext()));
-            messageTextView.setText(knownPhoneNumberText);
-        } else
-            messageTextView.setText(getResources().getString(R.string.unknown_phone_number));
-    }
 
-    private void makeUnverifyNumberButtonLookDisabledIfRequired(){
-        if (!IsNumberVerified()){
-            unverifyNumberButton.setAlpha(.5f);
+    public void refreshView(){
+        if (IsNumberVerified()){
+            setKnowNumberTextViewMessage();
+            makeUnverifyNumberButtonLookEnabled();
+        } else{
+            setUnknownPhoneNumberTextViewMessage();
+            makeUnverifyNumberButtonLookDisabled();
         }
     }
+
+    private void setKnowNumberTextViewMessage(){
+        String knownPhoneNumberText = getResources().getString(R.string.known_phone_number,
+                VerifiedPhoneNumberProvider.provide(getApplicationContext()));
+        messageTextView.setText(knownPhoneNumberText);
+    }
+
+    private void setUnknownPhoneNumberTextViewMessage(){
+        messageTextView.setText(getResources().getString(R.string.unknown_phone_number));
+    }
+
+    private void makeUnverifyNumberButtonLookDisabled(){
+        unverifyNumberButton.setAlpha(.5f);
+    }
+
 
     private void makeUnverifyNumberButtonLookEnabled(){
         unverifyNumberButton.setAlpha(1);
@@ -117,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             makeUnverifyNumberButtonLookEnabled();
             return;
         }
-        if (SmsUtil.isVerificationOngoing()){
+        if (isVerificationOngoing()){
             Toast.makeText(MainActivity.this,R.string.previous_verification_ongoing_toast, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -162,8 +185,7 @@ public class MainActivity extends AppCompatActivity {
         //receiving an SMS message
         if (isMagicNumber(phoneNumberData.getUserPhoneNumber())){
             PhoneNumberVerifier.verify(getApplicationContext(), phoneNumberData.getUserPhoneNumber());
-            changeTextViewMessageIfRequired();
-            makeUnverifyNumberButtonLookEnabled();
+            refreshView();
             return;
         }
 
@@ -185,7 +207,12 @@ public class MainActivity extends AppCompatActivity {
             smsSentBroadcastReceiver = new SmsSentBroadcastReceiver();
         if (smsDeliveredBroadcastReceiver == null)
             smsDeliveredBroadcastReceiver = new SmsDeliveredBroadcastReceiver();
+
         smsDeliveredBroadcastReceiver.register(getApplicationContext());
+        // to pass a reference to the MainActivity object is not nice but it is a practical way to refresh the UI
+        //right after the verification SMS has been received and the user phone number has just been verified
+        smsDeliveredBroadcastReceiver.setMainActivity(MainActivity.this);
+
         smsSentBroadcastReceiver.register(getApplicationContext());
     }
 
