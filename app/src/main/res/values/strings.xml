@@ -26,4 +26,7 @@
     <string name="no_service">Unable to send SMS, no network service</string>
     <string name="null_pdu">Unable to send SMS, PDU error</string>
     <string name="radio_off">Unable to send SMS, all radio signals are off. Airplane mode?</string>
+    <string name="number_has_been_verified">Phone number has been verified</string>
+    <string name="SMS_delivered">SMS delivered</string>
+    <string name="SMS_not_delivered">SMS not delivered</string>
 </resources>
